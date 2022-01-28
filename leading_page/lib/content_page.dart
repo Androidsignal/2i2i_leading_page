@@ -3,6 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:leading_page/common/title_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'common/custom_grid.dart';
+import 'common/custom_profile_image_view.dart';
+
 class ContentPage extends StatefulWidget {
   const ContentPage({Key? key}) : super(key: key);
 
@@ -113,6 +116,9 @@ class _ContentPageState extends State<ContentPage> {
           featureWidget(context),
           roadMapWidget(context),
           ourPhilosophyWidget(context),
+          teamWidget(context),
+          getAppWidget(context),
+          footerWidget(context),
         ],
       ),
     );
@@ -277,115 +283,257 @@ class _ContentPageState extends State<ContentPage> {
     );
   }
 
-  Column queuingWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Row queuingWidget(BuildContext context) {
+    return Row(
       children: [
-        SizedBox(height: 14.h),
-        const TitleWidget(text: '2i2i provides a\nqueuing system'),
-        SizedBox(height: 4.h),
-        Row(
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 14.h),
+              const TitleWidget(text: '2i2i provides a\nqueuing system'),
+              SizedBox(height: 4.h),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: ListView(
+                      primary: false,
+                      shrinkWrap: true,
+                      children: List.generate(
+                          queuingList.length,
+                          (index) => Stack(
+                                children: [
+                                  Card(
+                                    shadowColor: const Color.fromRGBO(
+                                        102, 153, 141, 0.2),
+                                    color: Theme.of(context).primaryColorLight,
+                                    elevation: 8,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 12),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(2.5.h),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            queuingList[index]['title']!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.w800,
+                                                    color: Theme.of(context)
+                                                        .cardColor),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            queuingList[index]['content']!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .shadowColor,
+                                                    height: 1.5,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 2.5.h,
+                                    child: CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Theme.of(context).cardColor,
+                                      child: Center(
+                                        child: Text(
+                                          '${index + 1}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Theme.of(context)
+                                                      .primaryColorLight),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                    ),
+                  ),
+                  const Spacer()
+                ],
+              ),
+              SizedBox(height: 14.h),
+            ],
+          ),
+        ),
+        Expanded(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: ListView(
-                primary: false,
-                shrinkWrap: true,
-                children: List.generate(
-                    queuingList.length,
-                    (index) => Stack(
-                          children: [
-                            Card(
-                              shadowColor:
-                                  const Color.fromRGBO(102, 153, 141, 0.2),
-                              color: Theme.of(context).primaryColorLight,
-                              elevation: 8,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 6, horizontal: 12),
-                              child: Padding(
-                                padding: EdgeInsets.all(2.5.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      queuingList[index]['title']!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w800,
-                                              color:
-                                                  Theme.of(context).cardColor),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      queuingList[index]['content']!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle2
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 2.5.h,
-                              child: CircleAvatar(
-                                radius: 12,
-                                backgroundColor: Theme.of(context).cardColor,
-                                child: Center(
-                                  child: Text(
-                                    '${index + 1}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context)
-                                                .primaryColorLight),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        )),
+            SizedBox(
+              height: 8.h,
+            ),
+            Image.asset('assets/chrony.png', height: 14.h, width: 28.h),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                children: [
+                  const Spacer(
+                    flex: 2,
+                  ),
+                  Image.asset('assets/high_roller_support.png',
+                      height: 14.h, width: 28.h),
+                  const Spacer(),
+                  SvgPicture.asset('assets/icon/host.svg',
+                      height: 9.h, width: 9.h),
+                  const Spacer(),
+                ],
               ),
             ),
-            const Spacer()
+            Row(
+              children: [
+                const Spacer(
+                  flex: 2,
+                ),
+                Image.asset('assets/essertic.png', height: 14.h, width: 28.h),
+                const Spacer(),
+              ],
+            ),
+            Row(
+              children: [
+                const Spacer(),
+                Image.asset('assets/lurker_support.png',
+                    height: 14.h, width: 28.h),
+              ],
+            )
           ],
-        ),
-        SizedBox(height: 14.h),
+        ))
       ],
     );
   }
 
-  Column customizationWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Row customizationWidget(BuildContext context) {
+    return Row(
       children: [
-        const TitleWidget(text: 'Customization'),
-        SizedBox(height: 4.h),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Card(
-                    shadowColor: const Color.fromRGBO(102, 153, 141, 0.2),
-                    color: Theme.of(context).primaryColorLight,
-                    elevation: 8,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleWidget(text: 'Customization'),
+              SizedBox(height: 4.h),
+              Card(
+                shadowColor: const Color.fromRGBO(102, 153, 141, 0.2),
+                color: Theme.of(context).primaryColorLight,
+                elevation: 10,
+                margin: EdgeInsets.only(right: 8.h),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 4.w),
+                      child: Text(
+                        'The Host can',
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).cardColor),
+                      ),
+                    ),
+                    SizedBox(height: 3.h),
+                    Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 4.w),
-                          child: Text(
-                            'The Host can',
+                        SvgPicture.asset(
+                          'assets/icon/arrow.svg',
+                          width: 8.h,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: Text(
+                          'Fix the amount of suggested support ( in the Chrony Lounge )',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).shadowColor),
+                        ))
+                      ],
+                    ),
+                    SizedBox(height: 1.2.h),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icon/arrow.svg',
+                          width: 8.h,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: Text(
+                          'Set the maximum duration of meetings',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).shadowColor),
+                        ))
+                      ],
+                    ),
+                    SizedBox(height: 1.2.h),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icon/arrow.svg',
+                          width: 8.h,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                            child: Text(
+                          'Choose the importance for each lounge',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              ?.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context).shadowColor),
+                        ))
+                      ],
+                    ),
+                    SizedBox(height: 3.h),
+                  ],
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Card(
+                shadowColor: const Color.fromRGBO(102, 153, 141, 0.2),
+                color: Theme.of(context).primaryColorLight,
+                elevation: 10,
+                margin: EdgeInsets.only(left: 8.h),
+                child: Padding(
+                  padding: EdgeInsets.all(3.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Importance',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6
@@ -393,155 +541,262 @@ class _ContentPageState extends State<ContentPage> {
                                     fontWeight: FontWeight.w800,
                                     color: Theme.of(context).cardColor),
                           ),
-                        ),
-                        SizedBox(height: 3.h),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icon/arrow.svg',
-                              width: 8.h,
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                                child: Text(
-                              'Fix the amount of suggested support ( in the Chrony Lounge )',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: Theme.of(context).shadowColor),
-                            ))
-                          ],
-                        ),
-                        SizedBox(height: 1.2.h),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icon/arrow.svg',
-                              width: 8.h,
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                                child: Text(
-                              'Set the maximum duration of meetings',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: Theme.of(context).shadowColor),
-                            ))
-                          ],
-                        ),
-                        SizedBox(height: 1.2.h),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icon/arrow.svg',
-                              width: 8.h,
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                                child: Text(
-                              'Choose the importance for each lounge',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: Theme.of(context).shadowColor),
-                            ))
-                          ],
-                        ),
-                        SizedBox(height: 3.h),
-                      ],
-                    ),
-                  ),
-                  Card(
-                    shadowColor: const Color.fromRGBO(102, 153, 141, 0.2),
-                    color: Theme.of(context).primaryColorLight,
-                    elevation: 8,
-                    child: Padding(
-                      padding: EdgeInsets.all(3.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Importance',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.w800,
-                                        color: Theme.of(context).cardColor),
-                              ),
-                              SvgPicture.asset(
-                                'assets/icon/arrow.svg',
-                                width: 8.h,
-                              ),
-                              Expanded(
-                                  child: Text(
-                                'The importance of a lounge is a number.',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Theme.of(context).shadowColor),
-                              ))
-                            ],
+                          SvgPicture.asset(
+                            'assets/icon/arrow.svg',
+                            width: 8.h,
                           ),
-                          SizedBox(height: 1.2.h),
-                          Text(
-                            'The higher the importance, the more the Host meets Guests from this lounge.',
+                          Expanded(
+                              child: Text(
+                            'The importance of a lounge is a number.',
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
                                 ?.copyWith(
                                     fontWeight: FontWeight.normal,
                                     color: Theme.of(context).shadowColor),
-                          ),
-                          SizedBox(height: 1.2.h),
-                          Row(
-                            children: [
-                              Text(
-                                'Importance 0',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontStyle: FontStyle.italic,
-                                        fontWeight: FontWeight.w800,
-                                        color: Theme.of(context).cardColor),
-                              ),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                  child: Text(
-                                'Choose the importance for each lounge',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    ?.copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Theme.of(context).shadowColor),
-                              ))
-                            ],
-                          ),
+                          ))
                         ],
                       ),
+                      SizedBox(height: 1.2.h),
+                      Text(
+                        'The higher the importance, the more the Host meets Guests from this lounge.',
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context).shadowColor),
+                      ),
+                      SizedBox(height: 1.2.h),
+                      Row(
+                        children: [
+                          Text(
+                            'Importance 0',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w800,
+                                    color: Theme.of(context).cardColor),
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                              child: Text(
+                            'Choose the importance for each lounge',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: Theme.of(context).shadowColor),
+                          ))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 12.h),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Card(
+            color: Theme.of(context).primaryColorLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: SizedBox(
+              height: 35.h,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8)),
+                          gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+                              Color.fromRGBO(82, 177, 245, 0.1),
+                              Color.fromRGBO(49, 244, 179, 0.1),
+                            ],
+                          )),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Imagine the lounges with the following importance',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(fontWeight: FontWeight.w800),
+                          ),
+                          SizedBox(height: 2.h),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Chrony Lounge',
+                                  textAlign: TextAlign.end,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icon/arrow.svg',
+                                  width: 8.h,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'importance 2',
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'High Roller Lounge',
+                                  textAlign: TextAlign.end,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icon/arrow.svg',
+                                  width: 8.h,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'importance 1',
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Eccentric Lounge',
+                                  textAlign: TextAlign.end,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icon/arrow.svg',
+                                  width: 8.h,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'importance 0',
+                                  textAlign: TextAlign.start,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      ?.copyWith(fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Spacer(),
+                        Expanded(
+                          flex: 3,
+                          child: RichText(
+                            textAlign: TextAlign.start,
+                            text: TextSpan(
+                              text: 'All the guest will be from',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(fontWeight: FontWeight.w400),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '\nChrony Lounge',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w800,
+                                            color:
+                                                Theme.of(context).cardColor)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: CustomGridView(
+                              crossAxisCount: 3,
+                              children: List.generate(9, (index) => Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SvgPicture.asset(
+                                  'assets/icon/user.svg',
+                                  height: 2.5.h,
+                                  width: 2.5.h,
+                                ),
+                              )),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            const Spacer()
-          ],
-        ),
-        SizedBox(height: 12.h),
+          ),
+        )
       ],
     );
   }
@@ -718,10 +973,10 @@ class _ContentPageState extends State<ContentPage> {
           SizedBox(height: 3.h),
           Text(
             'In 2i2i, the Host provides information and the Guest offers energy in return.',
-            style: Theme.of(context).textTheme.subtitle1?.copyWith(
+            style: Theme.of(context).textTheme.headline6?.copyWith(
                 fontFamily: 'Philosopher',
-                fontWeight: FontWeight.w200,
-                color: Theme.of(context).shadowColor),
+                fontWeight: FontWeight.w400,
+                color: const Color.fromRGBO(40, 40, 86, 0.6)),
           ),
           SizedBox(height: 2.h),
           Card(
@@ -819,9 +1074,10 @@ class _ContentPageState extends State<ContentPage> {
                       children: <TextSpan>[
                         TextSpan(
                             text: 'Etc.',
-                            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                                fontWeight: FontWeight.w400
-                            )),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(fontWeight: FontWeight.w400)),
                       ],
                     ),
                   ),
@@ -829,7 +1085,355 @@ class _ContentPageState extends State<ContentPage> {
                 ],
               ),
             ),
-          )
+          ),
+          SizedBox(height: 2.h),
+          Text(
+            'The energy of the Guest comes in the form of coins. Coins are an efficient storage of energy\nThis makes 2i2i an efficient exchange between information and energy.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontFamily: 'Philosopher',
+                fontWeight: FontWeight.w400,
+                color: const Color.fromRGBO(40, 40, 86, 0.6)),
+          ),
+          SizedBox(height: 3.h),
+          Text(
+            '2i2i offers a safe, private, zero risk space for everyone',
+            style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontFamily: 'Philosopher',
+                fontWeight: FontWeight.w700,
+                color: const Color.fromRGBO(40, 40, 86, 0.6)),
+          ),
+          SizedBox(height: 1.1.h),
+          SizedBox(
+            width: 60.h,
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const ProfileWidget(stringPath: '1'),
+                    SizedBox(width: 1.1.h),
+                    Expanded(
+                      child: Text(
+                        'To realise the value of their information by being a Host ',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                            fontFamily: 'Philosopher',
+                            fontWeight: FontWeight.w200,
+                            color: Theme.of(context).shadowColor),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(width: 1.1.h),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const ProfileWidget(stringPath: '2'),
+                    SizedBox(width: 1.1.h),
+                    Expanded(
+                      child: Text(
+                        'To acquire the information they desire by being a Guest',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                            fontFamily: 'Philosopher',
+                            fontWeight: FontWeight.w200,
+                            color: Theme.of(context).shadowColor),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            'An efficient and open exchange between information and energy will make the world a better place.',
+            style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontFamily: 'Philosopher',
+                fontWeight: FontWeight.w400,
+                color: const Color.fromRGBO(40, 40, 86, 0.6)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SizedBox teamWidget(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 12.h),
+          const TitleWidget(
+            text: 'Team',
+            height: 0.025,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+          SizedBox(height: 12.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const ProfileWithNameWidget(
+                name: 'Imi',
+                position: 'Co-Founder',
+                stringPath: 'assets/imi.png',
+              ),
+              SizedBox(width: 6.h),
+              const ProfileWithNameWidget(
+                name: 'Solli',
+                position: 'Co-Founder',
+                stringPath: 'assets/soli.png',
+              ),
+              SizedBox(width: 6.h),
+              const ProfileWithNameWidget(
+                name: 'Banjamin',
+                position: 'Advisor',
+                stringPath: 'assets/banjamin.png',
+              ),
+              SizedBox(width: 6.h),
+              const ProfileWithNameWidget(
+                name: 'Eran',
+                position: 'Advisor',
+                stringPath: 'assets/eran.png',
+              ),
+            ],
+          ),
+          SizedBox(height: 6.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const ProfileWithNameWidget(
+                name: 'Chandresh',
+                position: 'Developer',
+                stringPath: 'assets/chandresh.png',
+              ),
+              SizedBox(width: 6.h),
+              const ProfileWithNameWidget(
+                name: 'Ravi',
+                position: 'Developer',
+                stringPath: 'assets/ravi.png',
+              ),
+              SizedBox(width: 6.h),
+              const ProfileWithNameWidget(
+                name: 'Gitesh',
+                position: 'Designer',
+                stringPath: 'assets/gritesh.png',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Center getAppWidget(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 80.w,
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(top: 16.h),
+        child: Row(
+          children: [
+            SizedBox(width: 12.h),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const TitleWidget(
+                    text: 'Get the app now',
+                    height: 0.025,
+                  ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    'Download the app from you favourite playstore now.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(color: Theme.of(context).shadowColor),
+                  ),
+                  SizedBox(height: 6.h),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icon/qr_code.svg',
+                        height: 10.h,
+                        width: 10.h,
+                      ),
+                      SizedBox(width: 2.h),
+                      Text('Scan the QR Code to\nget the download link',
+                          style: Theme.of(context)
+                              .textTheme
+                              .button
+                              ?.copyWith(color: Theme.of(context).shadowColor)),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 5.h,
+                        width: 16.h,
+                        child: Image.asset(
+                          'assets/play_store.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      SizedBox(
+                        height: 5.h,
+                        width: 16.h,
+                        child: Image.asset('assets/app_store.png',
+                            fit: BoxFit.fill),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: Image.asset(
+                'assets/mobile.png',
+                height: 60.h,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding footerWidget(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/app_bar_logo.svg',
+                height: 6.h,
+              ),
+              SizedBox(width: 4.h),
+              Expanded(
+                child: Center(
+                  child: Table(children: [
+                    TableRow(
+                      children: [
+                        TextButton(
+                            style: const ButtonStyle(
+                                alignment: Alignment.centerLeft,
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text(
+                              'Home',
+                              style: Theme.of(context).textTheme.subtitle1,
+                              textAlign: TextAlign.start,
+                            )),
+                        TextButton(
+                            style: const ButtonStyle(
+                                alignment: Alignment.centerLeft,
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text(
+                              'FAQ',
+                              textAlign: TextAlign.start,
+                              style: Theme.of(context).textTheme.subtitle1,
+                            )),
+                        TextButton(
+                            style: const ButtonStyle(
+                              alignment: Alignment.centerLeft,
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              'Privacy Policy',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            )),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TextButton(
+                            style: const ButtonStyle(
+                                alignment: Alignment.centerLeft,
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text(
+                              'Contact Us',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            )),
+                        TextButton(
+                            style: const ButtonStyle(
+                                alignment: Alignment.centerLeft,
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text(
+                              'Support',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            )),
+                        TextButton(
+                            style: const ButtonStyle(
+                                alignment: Alignment.centerLeft,
+                                splashFactory: NoSplash.splashFactory),
+                            onPressed: () {},
+                            child: Text(
+                              'Terms & Condition',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ))
+                      ],
+                    )
+                  ]),
+                ),
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icon/insta.svg',
+                  height: 2.h,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icon/fb.svg',
+                  height: 2.h,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icon/tweeter.svg',
+                  height: 2.h,
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          SizedBox(height: 6.h),
+          Card(
+            elevation: 3,
+            child: Container(
+              width: 7.h,
+              height: 0.015,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(10)),
+            ),
+          ),
+          SizedBox(height: 2.h),
+          Text('© 2022 2i2i, All Right Reserved',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(color: const Color.fromRGBO(40, 40, 86, 0.6)))
         ],
       ),
     );
